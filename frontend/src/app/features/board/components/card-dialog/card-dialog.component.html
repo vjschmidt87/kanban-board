@@ -1,0 +1,53 @@
+<div class="dialog-overlay" (click)="cancelled.emit()">
+  <div class="dialog" (click)="$event.stopPropagation()">
+    <div class="dialog__header">
+      <h2>{{ isEdit ? i18n.t()('card.edit') : i18n.t()('card.create') }}</h2>
+      <button class="dialog__close" (click)="cancelled.emit()">×</button>
+    </div>
+
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>{{ i18n.t()('card.title') }}</label>
+        <input type="text" [(ngModel)]="title" name="title" required />
+      </div>
+
+      <div class="form-group">
+        <label>{{ i18n.t()('card.description') }}</label>
+        <textarea [(ngModel)]="description" name="description" rows="3"></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>{{ i18n.t()('card.priority') }}</label>
+          <select [(ngModel)]="priority" name="priority">
+            @for (p of priorities; track p) {
+              <option [value]="p">{{ i18n.t()('priority.' + p) }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>{{ i18n.t()('card.dueDate') }}</label>
+          <input type="date" [(ngModel)]="dueDate" name="dueDate" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>{{ i18n.t()('card.labels') }}</label>
+        <input type="text" [(ngModel)]="labels" name="labels" placeholder="frontend, backend, bug" />
+      </div>
+
+      <div class="dialog__actions">
+        @if (isEdit) {
+          <button type="button" class="btn-danger" (click)="onDelete()">{{ i18n.t()('card.delete') }}</button>
+        }
+        <div class="dialog__actions-right">
+          <button type="button" class="btn-secondary" (click)="cancelled.emit()">{{ i18n.t()('card.cancel') }}</button>
+          <button type="submit" class="btn-primary" [disabled]="loading() || !title.trim()">
+            {{ loading() ? i18n.t()('common.loading') : i18n.t()('card.save') }}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

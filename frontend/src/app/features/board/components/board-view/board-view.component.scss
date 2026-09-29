@@ -1,0 +1,61 @@
+@use '../../../../shared/styles/variables' as *;
+@use '../../../../shared/styles/mixins' as *;
+
+.board-view {
+  height: calc(100vh - $header-height);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  &__header {
+    @include flex-between;
+    padding: $spacing-lg $spacing-xl;
+    flex-shrink: 0;
+
+    h1 {
+      font-size: $font-size-xl;
+      font-weight: 700;
+    }
+  }
+
+  &__desc {
+    font-size: $font-size-sm;
+    color: var(--color-text-secondary);
+    margin-top: $spacing-xs;
+  }
+}
+
+.btn-primary {
+  @include button-primary;
+}
+
+.btn-secondary {
+  @include button-secondary;
+}
+
+.btn-sm {
+  padding: $spacing-xs $spacing-sm;
+  font-size: $font-size-sm;
+}
+
+.add-column-form {
+  display: flex;
+  gap: $spacing-sm;
+  padding: 0 $spacing-xl $spacing-md;
+  flex-shrink: 0;
+
+  input {
+    @include input-base;
+    max-width: 250px;
+  }
+}
+
+.board-columns {
+  display: flex;
+  gap: $spacing-md;
+  padding: 0 $spacing-xl $spacing-xl;
+  overflow-x: auto;
+  flex: 1;
+  align-items: flex-start;
+  @include scrollbar;
+}

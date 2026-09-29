@@ -1,0 +1,53 @@
+@if (board(); as board) {
+  <div class="board-view">
+    <div class="board-view__header">
+      <div>
+        <h1>{{ board.name }}</h1>
+        <p class="board-view__desc">{{ board.description }}</p>
+      </div>
+      <button class="btn-secondary" (click)="showAddColumn.set(!showAddColumn())">
+        + {{ i18n.t()('column.add') }}
+      </button>
+    </div>
+
+    @if (showAddColumn()) {
+      <div class="add-column-form">
+        <input
+          type="text"
+          [(ngModel)]="newColumnName"
+          [placeholder]="i18n.t()('column.name')"
+          (keyup.enter)="addColumn()"
+        />
+        <button class="btn-primary btn-sm" (click)="addColumn()" [disabled]="!newColumnName.trim()">
+          {{ i18n.t()('common.create') }}
+        </button>
+        <button class="btn-secondary btn-sm" (click)="showAddColumn.set(false)">
+          {{ i18n.t()('common.cancel') }}
+        </button>
+      </div>
+    }
+
+    <div class="board-columns">
+      @for (column of board.columns; track column.id) {
+        <app-column
+          [column]="column"
+          [allColumnIds]="getColumnIds()"
+          (addCard)="openCardDialog(null, column.id)"
+          (editCard)="openCardDialog($event, column.id)"
+          (removeCard)="deleteCard($event)"
+          (removeColumn)="deleteColumn(column.id)"
+          (cardDropped)="onCardDrop($event, column)"
+        />
+      }
+    </div>
+  </div>
+}
+
+@if (editingCard(); as editing) {
+  <app-card-dialog
+    [card]="editing.card"
+    [columnId]="editing.columnId"
+    (saved)="closeCardDialog()"
+    (cancelled)="editingCard.set(null)"
+  />
+}

@@ -1,0 +1,39 @@
+<div class="board-list-page">
+  <div class="board-list-header">
+    <h1>{{ i18n.t()('boards.title') }}</h1>
+    <button class="btn-primary" (click)="showCreate.set(true)">+ {{ i18n.t()('boards.create') }}</button>
+  </div>
+
+  @if (showCreate()) {
+    <div class="create-form">
+      <input type="text" [(ngModel)]="newName" [placeholder]="i18n.t()('boards.name')" />
+      <input type="text" [(ngModel)]="newDesc" [placeholder]="i18n.t()('boards.description')" />
+      <div class="create-form__actions">
+        <button class="btn-primary" (click)="createBoard()" [disabled]="!newName.trim()">{{ i18n.t()('common.create') }}</button>
+        <button class="btn-secondary" (click)="showCreate.set(false)">{{ i18n.t()('common.cancel') }}</button>
+      </div>
+    </div>
+  }
+
+  @if (boards().length === 0) {
+    <div class="empty-state">
+      <p>{{ i18n.t()('boards.empty') }}</p>
+    </div>
+  } @else {
+    <div class="boards-grid">
+      @for (board of boards(); track board.id) {
+        <div class="board-card" (click)="openBoard(board.id)">
+          <div class="board-card__header">
+            <h3>{{ board.name }}</h3>
+            <button class="board-card__delete" (click)="deleteBoard($event, board.id)">×</button>
+          </div>
+          <p class="board-card__desc">{{ board.description }}</p>
+          <div class="board-card__meta">
+            <span>{{ i18n.t()('boards.columns', { count: board.columnCount }) }}</span>
+            <span>{{ i18n.t()('boards.cards', { count: board.cardCount }) }}</span>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

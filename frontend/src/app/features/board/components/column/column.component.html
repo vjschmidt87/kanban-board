@@ -1,0 +1,60 @@
+<div class="column">
+  <div class="column__header">
+    <div class="column__title">
+      <h3>{{ column.name }}</h3>
+      <span class="column__count">{{ column.cards.length }}</span>
+    </div>
+    <div class="column__actions">
+      <button class="column__btn" (click)="addCard.emit()" [title]="i18n.t()('card.add')">+</button>
+      <button class="column__btn column__btn--danger" (click)="removeColumn.emit()" [title]="i18n.t()('common.delete')">×</button>
+    </div>
+  </div>
+
+  <div
+    class="column__cards"
+    cdkDropList
+    [id]="dropListId"
+    [cdkDropListData]="column.cards"
+    [cdkDropListConnectedTo]="allColumnIds"
+    (cdkDropListDropped)="onDrop($event)"
+  >
+    @for (card of column.cards; track card.id) {
+      <div
+        class="card"
+        cdkDrag
+        [cdkDragData]="card"
+        (click)="editCard.emit(card)"
+      >
+        <div class="card__top">
+          <span class="card__priority" [class]="getPriorityClass(card.priority)">
+            {{ i18n.t()('priority.' + card.priority) }}
+          </span>
+          @if (card.dueDate) {
+            <span class="card__due" [class.overdue]="isOverdue(card.dueDate)" [class.due-soon]="isDueSoon(card.dueDate)">
+              {{ card.dueDate }}
+            </span>
+          }
+        </div>
+
+        <h4 class="card__title">{{ card.title }}</h4>
+
+        @if (card.description) {
+          <p class="card__desc">{{ card.description }}</p>
+        }
+
+        <div class="card__bottom">
+          @if (card.labels) {
+            <div class="card__labels">
+              @for (label of formatLabels(card.labels); track label) {
+                <span class="card__label">{{ label }}</span>
+              }
+            </div>
+          }
+          @if (card.assigneeUsername) {
+            <span class="card__assignee">{{ card.assigneeUsername }}</span>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>

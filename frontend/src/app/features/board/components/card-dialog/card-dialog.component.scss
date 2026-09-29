@@ -1,0 +1,101 @@
+@use '../../../../shared/styles/variables' as *;
+@use '../../../../shared/styles/mixins' as *;
+
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  @include flex-center;
+  z-index: 200;
+}
+
+.dialog {
+  @include card-base;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: $spacing-xl;
+  box-shadow: $shadow-lg;
+
+  &__header {
+    @include flex-between;
+    margin-bottom: $spacing-xl;
+
+    h2 {
+      font-size: $font-size-lg;
+      font-weight: 600;
+    }
+  }
+
+  &__close {
+    @include flex-center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: $radius-md;
+    background: transparent;
+    color: var(--color-text-muted);
+    font-size: $font-size-xl;
+    cursor: pointer;
+    transition: all $transition-fast;
+
+    &:hover {
+      background: var(--color-hover);
+      color: var(--color-text);
+    }
+  }
+
+  &__actions {
+    @include flex-between;
+    margin-top: $spacing-xl;
+  }
+
+  &__actions-right {
+    display: flex;
+    gap: $spacing-sm;
+    margin-left: auto;
+  }
+}
+
+.form-group {
+  margin-bottom: $spacing-md;
+
+  label {
+    display: block;
+    font-size: $font-size-sm;
+    font-weight: 500;
+    margin-bottom: $spacing-xs;
+    color: var(--color-text-secondary);
+  }
+
+  input, textarea, select {
+    @include input-base;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  select {
+    appearance: auto;
+  }
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-md;
+}
+
+.btn-primary {
+  @include button-primary;
+}
+
+.btn-secondary {
+  @include button-secondary;
+}
+
+.btn-danger {
+  @include button-danger;
+}

@@ -1,0 +1,24 @@
+<header class="header">
+  <div class="header__left">
+    <a routerLink="/" class="header__logo">{{ i18n.t()('app.title') }}</a>
+    @if (auth.isAuthenticated()) {
+      <nav class="header__nav">
+        <a routerLink="/boards" routerLinkActive="active">{{ i18n.t()('nav.boards') }}</a>
+      </nav>
+    }
+  </div>
+  <div class="header__right">
+    <button class="icon-btn" (click)="i18n.toggleLanguage()" [title]="i18n.currentLang() === 'en' ? 'Português' : 'English'">
+      {{ i18n.currentLang() === 'en' ? i18n.t()('lang.pt') : i18n.t()('lang.en') }}
+    </button>
+    <button class="icon-btn" (click)="theme.toggleTheme()" [title]="theme.currentTheme() === 'light' ? i18n.t()('theme.dark') : i18n.t()('theme.light')">
+      {{ theme.currentTheme() === 'light' ? '🌙' : '☀️' }}
+    </button>
+    @if (auth.isAuthenticated()) {
+      <span class="header__user">{{ auth.username() }}</span>
+      <button class="btn-secondary" (click)="auth.logout()">{{ i18n.t()('nav.logout') }}</button>
+    } @else {
+      <a routerLink="/login" class="btn-secondary">{{ i18n.t()('nav.login') }}</a>
+    }
+  </div>
+</header>

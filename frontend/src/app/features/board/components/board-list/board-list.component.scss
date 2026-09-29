@@ -1,0 +1,110 @@
+@use '../../../../shared/styles/variables' as *;
+@use '../../../../shared/styles/mixins' as *;
+
+.board-list-page {
+  max-width: $breakpoint-xl;
+  margin: 0 auto;
+  padding: $spacing-2xl;
+}
+
+.board-list-header {
+  @include flex-between;
+  margin-bottom: $spacing-xl;
+
+  h1 {
+    font-size: $font-size-2xl;
+    font-weight: 700;
+  }
+}
+
+.btn-primary {
+  @include button-primary;
+}
+
+.btn-secondary {
+  @include button-secondary;
+}
+
+.create-form {
+  @include card-base;
+  padding: $spacing-lg;
+  margin-bottom: $spacing-xl;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+
+  input {
+    @include input-base;
+  }
+
+  &__actions {
+    display: flex;
+    gap: $spacing-sm;
+  }
+}
+
+.empty-state {
+  @include flex-center;
+  padding: $spacing-2xl;
+  color: var(--color-text-muted);
+  font-size: $font-size-lg;
+}
+
+.boards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: $spacing-lg;
+}
+
+.board-card {
+  @include card-base;
+  padding: $spacing-lg;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover {
+    border-color: var(--color-primary);
+    box-shadow: $shadow-md;
+  }
+
+  &__header {
+    @include flex-between;
+    margin-bottom: $spacing-sm;
+
+    h3 {
+      font-size: $font-size-lg;
+      font-weight: 600;
+    }
+  }
+
+  &__delete {
+    @include flex-center;
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: $radius-md;
+    background: transparent;
+    color: var(--color-text-muted);
+    font-size: $font-size-lg;
+    cursor: pointer;
+    transition: all $transition-fast;
+
+    &:hover {
+      background: var(--color-danger-bg);
+      color: var(--color-danger);
+    }
+  }
+
+  &__desc {
+    font-size: $font-size-sm;
+    color: var(--color-text-secondary);
+    margin-bottom: $spacing-md;
+  }
+
+  &__meta {
+    display: flex;
+    gap: $spacing-md;
+    font-size: $font-size-xs;
+    color: var(--color-text-muted);
+  }
+}
