@@ -4,6 +4,7 @@ import com.portfolio.kanbanboard.entity.*;
 import com.portfolio.kanbanboard.enums.BoardRole;
 import com.portfolio.kanbanboard.enums.Priority;
 import com.portfolio.kanbanboard.repository.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,24 @@ public class DataSeeder implements CommandLineRunner {
     private final CardRepository cardRepository;
     private final BoardMemberRepository boardMemberRepository;
     private final PasswordEncoder passwordEncoder;
+
+    @Value("${app.seed.demo.username}")
+    private String demoUsername;
+
+    @Value("${app.seed.demo.password}")
+    private String demoPassword;
+
+    @Value("${app.seed.demo.email}")
+    private String demoEmail;
+
+    @Value("${app.seed.alice.username}")
+    private String aliceUsername;
+
+    @Value("${app.seed.alice.password}")
+    private String alicePassword;
+
+    @Value("${app.seed.alice.email}")
+    private String aliceEmail;
 
     public DataSeeder(UserRepository userRepository, BoardRepository boardRepository,
                       BoardColumnRepository columnRepository, CardRepository cardRepository,
@@ -36,15 +55,15 @@ public class DataSeeder implements CommandLineRunner {
         if (userRepository.count() > 0) return;
 
         User demo = new User();
-        demo.setUsername("demo");
-        demo.setEmail("demo@kanban.com");
-        demo.setPassword(passwordEncoder.encode("demo123"));
-        userRepository.save(demo);
+        demo.setUsername(demoUsername);
+        demo.setEmail(demoEmail);
+        demo.setPassword(passwordEncoder.encode(demoPassword));
+        demo = userRepository.save(demo);
 
         User alice = new User();
-        alice.setUsername("alice");
-        alice.setEmail("alice@kanban.com");
-        alice.setPassword(passwordEncoder.encode("alice123"));
+        alice.setUsername(aliceUsername);
+        alice.setEmail(aliceEmail);
+        alice.setPassword(passwordEncoder.encode(alicePassword));
         userRepository.save(alice);
 
         Board board = new Board();
